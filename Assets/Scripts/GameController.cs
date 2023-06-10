@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<BaseWeapon> _playerArsenal;
     [SerializeField] private BaseWeapon _activeWeapon;
     [SerializeField] private GameObject _healthBar;
+    [SerializeField] private GameObject _playerHotBar;
 
     private void Start()
     {
@@ -22,7 +23,13 @@ public class GameController : MonoBehaviour
     private void Update() 
     {
         UpdateHPBar();
+        UpdatePlayerHP();
         SwapWeapons();
+    }
+
+    private void UpdatePlayerHP() {
+        if (_player == null) return;
+        _playerHotBar.transform.Find("Power").gameObject.GetComponent<TMP_Text>().text = _player.GetComponent<BasePlayer>().GetCurrentHP().ToString();
     }
 
     private void UpdateHPBar() 
