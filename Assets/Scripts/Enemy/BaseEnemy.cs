@@ -88,4 +88,9 @@ public class BaseEnemy : MonoBehaviour
     {
         WantsToAttack = true;
     }
+    
+    public void OnTakenDamage(float damageAmount)
+    {
+        CurrentHealth -= damageAmount;
+    }
 }
