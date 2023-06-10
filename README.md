@@ -11,3 +11,5 @@ You can view some amazing tools to add to your project here (feel free to sugges
 Colorful Hierachy Catergory GameObject: https://assetstore.unity.com/packages/tools/utilities/colourful-hierarchy-category-gameobject-205934
 
 Note: Please protect your master branch! Go to settings->branches->add protection branch rule and enable Require a pull request before merging to avoid unneeded conflicts!
+
+new line
