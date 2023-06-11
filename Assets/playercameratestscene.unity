@@ -255,7 +255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 0}
-  <PlayerOffset>k__BackingField: 60
+  <PlayerFreeOffset>k__BackingField: 120
+  <PlayerLockOffset>k__BackingField: 80
   <CameraLookSens>k__BackingField: 10
 --- !u!1 &993025146
 GameObject:
@@ -423,10 +424,6 @@ PrefabInstance:
     - target: {fileID: 4041788614416865917, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
       propertyPath: m_Name
       value: ClassicPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4411853408707114889, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
-      propertyPath: m_Drag
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5990994876351721818, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
       propertyPath: m_RootOrder

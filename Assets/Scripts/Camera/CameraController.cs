@@ -5,13 +5,15 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [field: SerializeField] private Camera Camera { get; set; }
-    [field: SerializeField] private float PlayerOffset { get; set; }
-    [field: SerializeField] private float CameraLookSens { get; set; }
+    [field: SerializeField] private float PlayerFreeOffset { get; set; } = 120.0f;
+    [field: SerializeField] private float PlayerLockOffset { get; set; } = 80.0f;
+    [field: SerializeField] private float CameraLookSens { get; set; } = 10.0f;
 
     public Transform LookTarget { get; set; }
     public Transform FollowTarget { get; set; }
 
-    private Vector3 TargetVector => Camera.transform.position - FollowTarget.position;
+    private Vector3 CameraTargetVector => Camera.transform.position - FollowTarget.position;
+    private Vector3 LookFollowVector => FollowTarget.position - LookTarget.position; // look -> follow
 
     private void Start()
     {
@@ -29,10 +31,10 @@ public class CameraController : MonoBehaviour
 
         if (LookTarget != FollowTarget)
         {
-            
+            Camera.transform.position = FollowTarget.position + LookFollowVector.normalized * PlayerLockOffset;
         }
 
-        Camera.transform.position = FollowTarget.position + TargetVector.normalized * PlayerOffset;
+        Camera.transform.position = FollowTarget.position + CameraTargetVector.normalized * PlayerFreeOffset;
     }
 
     public void Translate(Vector3 delta)
@@ -42,15 +44,17 @@ public class CameraController : MonoBehaviour
 
     public void Orbit(Vector2 delta)
     {
-        if (Mathf.Abs(PlayerOffset) < Mathf.Epsilon)
+        if (Mathf.Abs(PlayerFreeOffset) < Mathf.Epsilon)
         {
             return;
         }
 
-        Camera.transform.RotateAround(FollowTarget.position, Vector3.up, Mathf.Asin(delta.x / PlayerOffset) * Mathf.Rad2Deg * CameraLookSens);
-
         // rotate follow vector 90 degrees to get better rotation (thank fuck it's 90)
-        Vector3 rightRotate = LookTarget != FollowTarget ? new Vector3(TargetVector.z, TargetVector.y, TargetVector.x) : -Camera.transform.right;
-        Camera.transform.RotateAround(FollowTarget.position, rightRotate, Mathf.Asin(delta.y / PlayerOffset) * Mathf.Rad2Deg * CameraLookSens);
+        // Vector3 rightRotate = LookTarget != FollowTarget ? new Vector3(TargetVector.z, TargetVector.y, TargetVector.x) : -Camera.transform.right;
+        if (LookTarget == FollowTarget)
+        {
+            Camera.transform.RotateAround(FollowTarget.position, Vector3.up, Mathf.Asin(delta.x / PlayerFreeOffset) * Mathf.Rad2Deg * CameraLookSens);
+            Camera.transform.RotateAround(FollowTarget.position, -Camera.transform.right, Mathf.Asin(delta.y / PlayerFreeOffset) * Mathf.Rad2Deg * CameraLookSens);
+        }
     }
 }

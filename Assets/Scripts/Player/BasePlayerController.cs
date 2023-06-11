@@ -88,8 +88,8 @@ public class BasePlayerController : MonoBehaviour
         _moveDirection.x = moveDirection2d.x;
         _moveDirection.z = moveDirection2d.y;
         _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
-        _moveDirection.Normalize();
         _moveDirection.y = 0;
+        _moveDirection.Normalize();
 
         if (_moveDirection != Vector3.zero)
         {
@@ -148,7 +148,7 @@ public class BasePlayerController : MonoBehaviour
         // TODO: find closest to forward vector
         foreach (GameObject go in sceneObjects)
         {
-            if (go.tag == CommonDefinitions.Tags.ENEMY)
+            if (go.CompareTag(CommonDefinitions.Tags.ENEMY))
             {
                 return go.transform;
             }
