@@ -19,9 +19,12 @@ public class BasePlayerController : MonoBehaviour
     [field: SerializeField] private float JumpHeight { get; set; } = 250.0f;
     [field: SerializeField] private float MoveSpeed { get; set; } = 15.0f;
     [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
+    [field: SerializeField] private float RollInvincibilityTime { get; set; } = 0.1f;
+    [field: SerializeField] private float RollHurtTime { get; set; } = 0.2f;
 
     [field: Header("Animation")]
     [field: SerializeField] private Transform MeshTransform { get; set; }
+    [field: SerializeField] private Animator Animator { get; set; }
 
     private bool _isGrounded = false;
     private Vector3 _moveDirection = Vector3.zero;
@@ -30,6 +33,9 @@ public class BasePlayerController : MonoBehaviour
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
     private bool _CantSwap = false;
+
+    private bool isInIFrames = false;
+    private bool canRoll = true;
 
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
@@ -76,6 +82,18 @@ public class BasePlayerController : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(transform.position + _moveDirection * 40, 5);
         Gizmos.DrawLine(transform.position, transform.position + _moveDirection * 40);
+
+        if (isInIFrames)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(transform.position, 5);
+        }
+
+        if (canRoll)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, 5);
+        }
     }
 
     #region PLAYERINPUT
@@ -93,23 +111,33 @@ public class BasePlayerController : MonoBehaviour
         _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
         _moveDirection.y = 0;
         _moveDirection.Normalize();
+        _moveDirection *= moveDirection2d.magnitude;
 
         if (_moveDirection != Vector3.zero)
         {
             MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
+            Animator.Play("walk");
         }
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        // TODO: determine shooting behaviour
-        // abtracted weapons are a must
+        Animator.Play("attack");
+        Weapon.TryAttack();
     }
 
     public void OnRoll(InputAction.CallbackContext context)
     {
-        // TODO: determine rolling behaviour 
-        // we probably want decoupled frame data & animation context
+        if (!canRoll)
+        {
+            return;
+        }
+
+        Animator.Play("roll");
+        isInIFrames = true;
+        canRoll = false;
+
+        StartCoroutine(RollInvincibility());
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -120,6 +148,7 @@ public class BasePlayerController : MonoBehaviour
         {
             _isGrounded = false;
             MainRigidbody.AddForce(Vector3.up * JumpHeight, ForceMode.Acceleration);
+            Animator.Play("jump");
         }
     }
 
@@ -164,5 +193,13 @@ public class BasePlayerController : MonoBehaviour
         }
 
         return CameraTarget;
+    }
+
+    private IEnumerator RollInvincibility()
+    {
+        yield return new WaitForSeconds(RollInvincibilityTime);
+        isInIFrames = false;
+        yield return new WaitForSeconds(RollHurtTime);
+        canRoll = true;
     }
 }
