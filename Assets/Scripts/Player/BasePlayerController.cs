@@ -21,8 +21,6 @@ public class BasePlayerController : MonoBehaviour
     [field: SerializeField] private float JumpHeight { get; set; } = 250.0f;
     [field: SerializeField] private float MoveSpeed { get; set; } = 15.0f;
     [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
-    [field: SerializeField] private float RollInvincibilityTime { get; set; } = 0.1f;
-    [field: SerializeField] private float RollHurtTime { get; set; } = 0.2f;
 
     [field: Header("Animation")]
     [field: SerializeField] private Transform MeshTransform { get; set; }
@@ -67,6 +65,10 @@ public class BasePlayerController : MonoBehaviour
         if (MainRigidbody.velocity != Vector3.zero)
         {
             OnMovement?.Invoke(CameraTarget.position, CameraTarget.position - _lastFixedUpdatePosition);
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+            {
+                Animator.Play("Base Layer.Anim_Player_NRun");
+            }
         }
 
         _lastFixedUpdatePosition = CameraTarget.position;
@@ -104,10 +106,10 @@ public class BasePlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 moveDirection2d = context.ReadValue<Vector2>();
-        if (_moveDirection == Vector3.zero && moveDirection2d != Vector2.zero)
-        {
+        // if (_moveDirection == Vector3.zero && moveDirection2d != Vector2.zero)
+        // {
             _lastStationaryCameraMatrix = CameraInterface.CameraController.transform.localToWorldMatrix;
-        }
+        // }
 
         _moveDirection.x = moveDirection2d.x;
         _moveDirection.z = moveDirection2d.y;
@@ -119,8 +121,6 @@ public class BasePlayerController : MonoBehaviour
         if (_moveDirection != Vector3.zero)
         {
             MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
-                Animator.Play("Base Layer.Anim_Player_NRun");
         }
     }
 
@@ -143,8 +143,6 @@ public class BasePlayerController : MonoBehaviour
         Animator.Play("Base Layer.Anim_player_Roll");
         isInIFrames = true;
         canRoll = false;
-
-        StartCoroutine(RollInvincibility());
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -202,11 +200,19 @@ public class BasePlayerController : MonoBehaviour
         return CameraTarget;
     }
 
-    private IEnumerator RollInvincibility()
+    public void OnRollAnimStart()
     {
-        yield return new WaitForSeconds(RollInvincibilityTime);
+        canRoll = false;
+        isInIFrames = true;
+    }
+
+    public void OnRollIFrameEnd()
+    {
         isInIFrames = false;
-        yield return new WaitForSeconds(RollHurtTime);
+    }
+
+    public void OnRollAnimationComplete()
+    {
         canRoll = true;
     }
 }

@@ -183,6 +183,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b9e25a12-141f-46dc-a091-2708b712a14c
     m_ActionName: Player/TargetLock[/SwitchProControllerHID/rightStickPress]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c27bdd7d-3692-4b83-97e9-b8aa026b6b29
+    m_ActionName: Player/SwapWeapon[/Keyboard/q,/SwitchProControllerHID/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -201,6 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Health>k__BackingField: 0
+  _GameController: {fileID: 0}
   <CameraInterface>k__BackingField: {fileID: 5816263918024277647}
   <CameraTarget>k__BackingField: {fileID: 7758098267180924627}
   <MainRigidbody>k__BackingField: {fileID: 4411853408707114889}
@@ -211,6 +216,7 @@ MonoBehaviour:
   <RollHurtTime>k__BackingField: 0.4
   <MeshTransform>k__BackingField: {fileID: 7838807208688378742}
   <Animator>k__BackingField: {fileID: 7838807208688378743}
+  <WalkThreshold>k__BackingField: 0.8
 --- !u!114 &5816263918024277647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +347,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f4cd65699daf344887067a46fd145a5, type: 3}
+--- !u!1 &7458762747993668044 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 336203384218380582, guid: 0f4cd65699daf344887067a46fd145a5, type: 3}
+  m_PrefabInstance: {fileID: 7145160924814037226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3551937096991178623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7458762747993668044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db95dc968e99e4468f40bb57d89e1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <player>k__BackingField: {fileID: 8708818347260054777}
 --- !u!4 &7838807208688378742 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1144406468912395164, guid: 0f4cd65699daf344887067a46fd145a5, type: 3}
