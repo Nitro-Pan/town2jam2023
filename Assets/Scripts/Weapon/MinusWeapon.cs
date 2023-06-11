@@ -16,15 +16,14 @@ public class MinusWeapon : BaseWeapon
             // Back out of attack
             return;
         }
-        /* Wait until Player health is implemented
+
         BaseEnemy enemy = other.GetComponent<BaseEnemy>();
         if(!enemy)
         {
             return;
         }
 
-        BasePlayer player = this.GetComponent<BasePlayer>();
-        enemy.BaseHealth -= player.BaseHealth;
-        */
+        BasePlayerController player = GetComponent<BasePlayerController>();
+        enemy.BaseHealth -= player.Health;
     }
 }

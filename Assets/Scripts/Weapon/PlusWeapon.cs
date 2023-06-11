@@ -19,24 +19,22 @@ public class PlusWeapon : BaseWeapon
             return;
         }
 
-        /* Wait until Player health is implemented
         BaseEnemy enemy = other.GetComponent<BaseEnemy>();
         if(!enemy)
         {
             return;
         }
 
-        BasePlayer player = this.GetComponent<BasePlayer>();
-        if(enemy.BaseHealth < power)
+        BasePlayerController player = GetComponent<BasePlayerController>();
+        if(enemy.BaseHealth < player.Health)
         {
             // consume enemy into self
-            player.BaseHealth += enemy.BaseHealth;
+            player.Health += enemy.BaseHealth;
             enemy.BaseHealth = -1;
         } else {
             // Add one to both
-            player.BaseHealth += 1;
+            player.Health += 1;
             enemy.BaseHealth += 1;
         }
-        */
     }
 }
