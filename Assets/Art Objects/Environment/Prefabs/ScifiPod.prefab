@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1962329138211325212}
   - component: {fileID: 3212276413876079289}
   - component: {fileID: 824364516096867955}
+  - component: {fileID: 222188549966666871}
   m_Layer: 0
   m_Name: ScifiPod
   m_TagString: Untagged
@@ -84,6 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &222188549966666871
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184525148868075430}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20.93003, y: 6.5415525, z: 12.893303}
+  m_Center: {x: 0, y: 1.9009055, z: 0}
 --- !u!1 &2883057107752074434
 GameObject:
   m_ObjectHideFlags: 0

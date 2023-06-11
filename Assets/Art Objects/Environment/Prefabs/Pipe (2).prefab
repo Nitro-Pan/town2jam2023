@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1878941720033992108}
   - component: {fileID: 3295663093547700745}
   - component: {fileID: 745481350787000003}
+  - component: {fileID: 1977545851866112052}
   m_Layer: 0
   m_Name: Pipe (2)
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1977545851866112052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249897496205444886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6211908, y: 2.297595, z: 1.5729845}
+  m_Center: {x: 0, y: -0.24676126, z: 0}
