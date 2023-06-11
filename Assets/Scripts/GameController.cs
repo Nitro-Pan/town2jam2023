@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
         }
         return maxHP;
     }
-    private void SwapWeapons()
+    public void SwapWeapons()
     {
         
     }
