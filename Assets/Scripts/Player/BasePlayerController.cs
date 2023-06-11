@@ -21,6 +21,7 @@ public class BasePlayerController : MonoBehaviour
     [field: SerializeField] private float JumpHeight { get; set; } = 250.0f;
     [field: SerializeField] private float MoveSpeed { get; set; } = 15.0f;
     [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
+    [field: SerializeField] private float RollSpeed { get; set; } = 25.0f;
 
     [field: Header("Animation")]
     [field: SerializeField] private Transform MeshTransform { get; set; }
@@ -60,14 +61,21 @@ public class BasePlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MainRigidbody.AddForce((_isGrounded ? 1 : AirSpeedFactor) * MoveSpeed * _moveDirection, ForceMode.Acceleration);
-
-        if (MainRigidbody.velocity != Vector3.zero)
+        if (!canRoll)
         {
-            OnMovement?.Invoke(CameraTarget.position, CameraTarget.position - _lastFixedUpdatePosition);
-            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+            MainRigidbody.AddForce(_moveDirection * RollSpeed, ForceMode.Acceleration);
+        }
+        else if (canRoll)
+        {
+            MainRigidbody.AddForce((_isGrounded ? 1 : AirSpeedFactor) * MoveSpeed * _moveDirection, ForceMode.Acceleration);
+
+            if (MainRigidbody.velocity != Vector3.zero)
             {
-                Animator.Play("Base Layer.Anim_Player_NRun");
+                OnMovement?.Invoke(CameraTarget.position, CameraTarget.position - _lastFixedUpdatePosition);
+                if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+                {
+                    Animator.Play("Base Layer.Anim_Player_NRun");
+                }
             }
         }
 
@@ -110,17 +118,20 @@ public class BasePlayerController : MonoBehaviour
         // {
             _lastStationaryCameraMatrix = CameraInterface.CameraController.transform.localToWorldMatrix;
         // }
-
-        _moveDirection.x = moveDirection2d.x;
-        _moveDirection.z = moveDirection2d.y;
-        _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
-        _moveDirection.y = 0;
-        _moveDirection.Normalize();
-        _moveDirection *= moveDirection2d.magnitude;
-
-        if (_moveDirection != Vector3.zero)
+        
+        if (canRoll)
         {
-            MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
+            _moveDirection.x = moveDirection2d.x;
+            _moveDirection.z = moveDirection2d.y;
+            _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
+            _moveDirection.y = 0;
+            _moveDirection.Normalize();
+            _moveDirection *= moveDirection2d.magnitude;
+
+            if (_moveDirection != Vector3.zero)
+            {
+                MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
+            }
         }
     }
 
