@@ -200,12 +200,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db825b4b5db8e464fa1a82da1c813369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Health>k__BackingField: 0
   <CameraInterface>k__BackingField: {fileID: 5816263918024277647}
   <CameraTarget>k__BackingField: {fileID: 7758098267180924627}
   <MainRigidbody>k__BackingField: {fileID: 4411853408707114889}
   <JumpHeight>k__BackingField: 250
   <MoveSpeed>k__BackingField: 140
   <AirSpeedFactor>k__BackingField: 0.5
+  <MeshTransform>k__BackingField: {fileID: 8470135089082164606}
 --- !u!114 &5816263918024277647
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class PlayerCameraInterface : MonoBehaviour
         }
     }
 
+    public Vector3 CameraForward => CameraController.transform.forward;
+
     private void Start()
     {
         CameraController = Camera.main.GetComponent<CameraController>(); // find it???
