@@ -24,6 +24,6 @@ public class MinusWeapon : BaseWeapon
         }
 
         BasePlayerController player = GetComponent<BasePlayerController>();
-        enemy.BaseHealth -= player.Health;
+        enemy.CurrentHealth -= player.Health;
     }
 }

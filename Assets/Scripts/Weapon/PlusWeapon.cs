@@ -29,7 +29,7 @@ public class PlusWeapon : BaseWeapon
         if(enemy.BaseHealth < player.Health)
         {
             // consume enemy into self
-            player.Health += enemy.BaseHealth;
+            player.Health += enemy.CurrentHealth;
             enemy.BaseHealth = -1;
         } else {
             // Add one to both
