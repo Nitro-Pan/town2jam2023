@@ -25,6 +25,8 @@ public class BaseWeapon : MonoBehaviour, IWeapon
     // What operator is active: what will occur on hit
     [field: SerializeField] public Operators ActiveOperator { get; set; } = Operators.Subtraction;
 
+    float CurrentAttackActiveTime { get; set; }
+
 
     // Start is called before the first frame update
     public void Start()
@@ -34,6 +36,14 @@ public class BaseWeapon : MonoBehaviour, IWeapon
 
         // Hacky???
         _playerController = FindObjectOfType<BasePlayerController>();
+
+
+    }
+
+    public void Update()
+    {
+        CurrentAttackActiveTime -= Time.deltaTime;
+        _collider.enabled = CurrentAttackActiveTime > 0.0f;
     }
 
     /**
@@ -50,13 +60,15 @@ public class BaseWeapon : MonoBehaviour, IWeapon
     public void OnTriggerEnter(Collider other)
     {
         // Not able to attack right now
-        if (!TryAttack()) return; 
+        if (!TryAttack()) return;
 
         BaseEnemy enemy = other.GetComponent<BaseEnemy>();
         // collision not an enemy or dead enemy: do nothing
-        if (!enemy || enemy.CurrentHealth <= 0) return; 
+        if (!enemy || enemy.CurrentHealth <= 0) return;
 
-        switch(ActiveOperator)
+        CurrentAttackActiveTime = 0.0f;
+
+        switch (ActiveOperator)
         {
             case Operators.Addition:
                 if(enemy.CurrentHealth < _playerController.Health)
@@ -90,6 +102,9 @@ public class BaseWeapon : MonoBehaviour, IWeapon
             return false;
         }
         Attack();
+
+        CurrentAttackActiveTime = 2.0f;
+
         return true;
     }
 

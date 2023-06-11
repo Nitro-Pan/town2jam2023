@@ -129,8 +129,9 @@ public class BasePlayerController : MonoBehaviour
         if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
         {
             Animator.Play("Base Layer.Anim_Player_Attack");
-            Weapon.TryAttack();
         }
+
+        _GameController.GetComponent<GameController>().Attack();
     }
 
     public void OnRoll(InputAction.CallbackContext context)

@@ -56,6 +56,13 @@ public class GameController : MonoBehaviour
         }
         return maxHP;
     }
+
+    public void Attack()
+    {
+        if (_player == null) return;
+        _weapon.GetComponent<BaseWeapon>().TryAttack();
+    }
+
     public void SwapWeapon()
     {
         _activeOperator += 1;
