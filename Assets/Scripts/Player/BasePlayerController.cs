@@ -7,7 +7,10 @@ using UnityEngine.InputSystem;
 public class BasePlayerController : MonoBehaviour
 {
     [field: SerializeField] public int Health { get; set; }
-    [field: SerializeField] public IWeapon Weapon { get; set; }
+    
+    [field: SerializeField] private GameObject _GameController;
+
+    [field: SerializeField] private IWeapon Weapon { get; set; }
 
     [field: Header("Camera")]
     [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
@@ -32,6 +35,7 @@ public class BasePlayerController : MonoBehaviour
     private bool isLockedOn = false;
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
+    private bool _CantSwap = false;
 
     private bool isInIFrames = false;
     private bool canRoll = true;
@@ -50,7 +54,7 @@ public class BasePlayerController : MonoBehaviour
     private void Update()
     {
         // camera stuff
-        if (_lookDelta != Vector2.zero)
+        if (_lookDelta != Vector2.zero && _lookDelta.x != float.NaN)
         {
             OnLookDelta?.Invoke(CameraTarget.position, _lookDelta);
         }
@@ -173,6 +177,12 @@ public class BasePlayerController : MonoBehaviour
         {
             OnTargetLock?.Invoke(isLockedOn ? target : CameraTarget);
         }
+    }
+
+    public void SwapWeapon(InputAction.CallbackContext context)
+    {
+        if (_CantSwap) return;
+        _GameController.GetComponent<GameController>().SwapWeapon();
     }
     #endregion
 

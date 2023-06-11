@@ -13,22 +13,26 @@ public class BaseEnemy : MonoBehaviour
     [field: SerializeField] public float RotationSpeed { get; set; }
     [field: SerializeField] public float MinDistanceFromTarget { get; set; }
     [field: SerializeField] public float DistanceToTargetBeforeAttacking { get; set; }
+    [field: SerializeField] public float BaseTimeBetweenAttacks { get; set; }
+    private float CurrentTimeBetweenAttacks { get; set; }
 
-    public bool IsRecoveringFromAttack { get; set; }
-    public bool WantsToAttack { get; private set; }
-    public bool IsInAttackAnimation { get; set; }
+    public bool IsAttacking { get; set; }
 
-    private Vector3 Origin { get; set; }
+    protected Vector3 Origin { get; set; }
 
-    public void Awake()
+    [field: SerializeField] public float BaseRecoveryTime { get; set; }
+    private float CurrentRecoveryTime { get; set; }
+
+    public virtual void Awake()
     {
         Origin = transform.position;
     }
 
-    private float curTime = 0.0f;
 
     public void FixedUpdate()
     {
+        if (CurrentHealth <= 0.0f) { return; }
+
         UpdateMovement();
         UpdateAttack();
     }
@@ -64,27 +68,60 @@ public class BaseEnemy : MonoBehaviour
 
     private bool CanMove()
     {
-        return !IsInAttackAnimation;
+        return !IsAttacking && !IsRecoveringFromAttack();
     }
 
     private bool CanRotate()
     {
-        return !IsInAttackAnimation;
+        return !IsAttacking && !IsRecoveringFromAttack();
     }
 
     private void UpdateAttack()
     {
         if (Target == null) { return; }
 
-        if (!CanAttack()) { return; }
-        if (!ShouldAttack()) { return; }
+        if (IsAttacking)
+        {
+            bool finished = UpdateAttackInProgress();
+            if (finished)
+            {
+                IsAttacking = false;
+                CurrentRecoveryTime = BaseRecoveryTime;
+            }
+        }
+        else if (IsRecoveringFromAttack())
+        {
+            UpdateRecovery();
+        }
+        else
+        {
+            if (CanAttack())
+            {
+                IsAttacking = true;
+                Attack();
+                CurrentTimeBetweenAttacks = BaseTimeBetweenAttacks;
+            }
 
-        BeginAttack();
+            CurrentTimeBetweenAttacks -= Time.deltaTime;
+        }
+
+    }
+
+    public bool IsRecoveringFromAttack()
+    {
+        return (CurrentRecoveryTime > 0.0f);
+    }
+
+    private void UpdateRecovery()
+    {
+        if (!IsRecoveringFromAttack()) { return; }
+
+        CurrentRecoveryTime -= Time.deltaTime;
     }
 
     private bool CanAttack()
     {
-        return (!IsRecoveringFromAttack);
+        return (!IsAttacking && !IsRecoveringFromAttack() && (CurrentTimeBetweenAttacks <= 0.0f));
     }
 
     private bool ShouldAttack()
@@ -94,19 +131,6 @@ public class BaseEnemy : MonoBehaviour
         return (Vector3.Distance(Target.transform.position, transform.position) < DistanceToTargetBeforeAttacking);
     }
 
-
-    private void BeginAttack()
-    {
-        WantsToAttack = true;
-
-        curTime += Time.deltaTime;
-        if (curTime > 5.0f)
-        {
-            Attack();
-            curTime = 0.0f;
-        }
-    }
-    
     public void OnTakenDamage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
@@ -114,5 +138,10 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void Attack()
     {
+    }
+
+    protected virtual bool UpdateAttackInProgress()
+    {
+        return true;
     }
 }
