@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class BasePlayerController : MonoBehaviour
 {
     [field: SerializeField] public int Health { get; set; }
-    [field: SerializeField] public IWeapon Weapon { get; set; }
+    
+    [field: SerializeField] private GameObject _GameController;
 
     [field: Header("Camera")]
     [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
@@ -31,8 +32,7 @@ public class BasePlayerController : MonoBehaviour
     private bool isLockedOn = false;
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
-    private bool _CantSwap;
-    private GameObject _GameController;
+    private bool _CantSwap = false;
 
     private bool isInIFrames = false;
     private bool canRoll = true;
