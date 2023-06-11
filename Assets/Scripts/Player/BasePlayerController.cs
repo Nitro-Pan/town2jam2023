@@ -24,6 +24,7 @@ public class BasePlayerController : MonoBehaviour
     [field: Header("Animation")]
     [field: SerializeField] private Transform MeshTransform { get; set; }
     [field: SerializeField] private Animator Animator { get; set; }
+    [field: SerializeField] private float WalkThreshold { get; set; } = 0.8f;  
 
     private bool _isGrounded = false;
     private Vector3 _moveDirection = Vector3.zero;
@@ -78,19 +79,19 @@ public class BasePlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position + _moveDirection * 40, 5);
-        Gizmos.DrawLine(transform.position, transform.position + _moveDirection * 40);
+        Gizmos.DrawSphere(transform.position + _moveDirection, 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + _moveDirection);
 
         if (isInIFrames)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawSphere(transform.position, 5);
+            Gizmos.DrawSphere(transform.position, 0.2f);
         }
 
         if (canRoll)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 5);
+            Gizmos.DrawSphere(transform.position, 0.2f);
         }
     }
 
@@ -114,14 +115,18 @@ public class BasePlayerController : MonoBehaviour
         if (_moveDirection != Vector3.zero)
         {
             MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
-            Animator.Play("walk");
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+                Animator.Play("Base Layer.Anim_Player_NRun");
         }
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        Animator.Play("attack");
-        Weapon.TryAttack();
+        if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+        {
+            Animator.Play("Base Layer.Anim_Player_Attack");
+            Weapon.TryAttack();
+        }
     }
 
     public void OnRoll(InputAction.CallbackContext context)
@@ -131,7 +136,7 @@ public class BasePlayerController : MonoBehaviour
             return;
         }
 
-        Animator.Play("roll");
+        Animator.Play("Base Layer.Anim_player_Roll");
         isInIFrames = true;
         canRoll = false;
 
@@ -146,7 +151,7 @@ public class BasePlayerController : MonoBehaviour
         {
             _isGrounded = false;
             MainRigidbody.AddForce(Vector3.up * JumpHeight, ForceMode.Acceleration);
-            Animator.Play("jump");
+            // Animator.Play("jump");
         }
     }
 
