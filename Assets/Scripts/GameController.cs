@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
         _healthBar.transform.Find("CurrentPower").gameObject.GetComponent<TMP_Text>().text = SumEnemyHP().ToString();
         _playerArsenal.Add(Operators.Addition);
         _playerArsenal.Add(Operators.Subtraction);
+        _activeOperator = Operators.Subtraction;
+        GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
     }
 
     private void Update() 
@@ -61,5 +63,19 @@ public class GameController : MonoBehaviour
             _activeOperator = 0;
         }
         _weapon.GetComponent<BaseWeapon>().ActiveOperator = _activeOperator;
+        if (_activeOperator == Operators.Addition) 
+        {
+            GameObject.Find("WeaponUI1").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
+            GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI3").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI4").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+        }
+        else if (_activeOperator == Operators.Subtraction)
+        {
+            GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
+            GameObject.Find("WeaponUI1").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI3").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI4").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+        }
     }
 }
