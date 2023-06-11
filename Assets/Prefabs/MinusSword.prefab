@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3886521969348134980
+--- !u!1 &6900803007267568817
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1827615695576021721}
-  - component: {fileID: 613192441125141370}
-  - component: {fileID: 4531719742941882479}
-  - component: {fileID: 22460907281713995}
-  - component: {fileID: 6820411979345534116}
+  - component: {fileID: 8028827317783053033}
+  - component: {fileID: 6073287143486037174}
+  - component: {fileID: 4139448851044578561}
+  - component: {fileID: 5549335793103445434}
+  - component: {fileID: 2640779235688519185}
   m_Layer: 0
   m_Name: MinusSword
   m_TagString: Untagged
@@ -20,28 +20,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1827615695576021721
+--- !u!4 &8028827317783053033
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3886521969348134980}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.465, y: 0, z: 0.323}
+  m_GameObject: {fileID: 6900803007267568817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &613192441125141370
+--- !u!33 &6073287143486037174
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6900803007267568817}
+  m_Mesh: {fileID: -4090665999859595416, guid: 32be7188d67621a4cb338d469e075543, type: 3}
+--- !u!23 &4139448851044578561
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3886521969348134980}
+  m_GameObject: {fileID: 6900803007267568817}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -55,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3990051815257612311, guid: 13836f65b5ce5ae4cbfa2985b3365016, type: 3}
+  - {fileID: -3990051815257612311, guid: 32be7188d67621a4cb338d469e075543, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,41 +85,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &4531719742941882479
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3886521969348134980}
-  m_Mesh: {fileID: -4090665999859595416, guid: 13836f65b5ce5ae4cbfa2985b3365016, type: 3}
---- !u!64 &22460907281713995
+--- !u!64 &5549335793103445434
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3886521969348134980}
+  m_GameObject: {fileID: 6900803007267568817}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4090665999859595416, guid: 13836f65b5ce5ae4cbfa2985b3365016, type: 3}
---- !u!114 &6820411979345534116
+  m_Mesh: {fileID: -4090665999859595416, guid: 32be7188d67621a4cb338d469e075543, type: 3}
+--- !u!114 &2640779235688519185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3886521969348134980}
+  m_GameObject: {fileID: 6900803007267568817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff008d2ac17614469f424d550e8e09a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4658eb4f3a678de4aaa0f16ac2a8138d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _canAttack: 1
   _attackSpeed: 0
   _attackSound: {fileID: 0}
-  _collider: {fileID: 22460907281713995}
+  _collider: {fileID: 5549335793103445434}
