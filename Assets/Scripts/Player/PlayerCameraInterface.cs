@@ -18,6 +18,8 @@ public class PlayerCameraInterface : MonoBehaviour
         }
     }
 
+    public Vector3 CameraForward => CameraController.transform.forward;
+
     private void Start()
     {
         CameraController = Camera.main.GetComponent<CameraController>(); // find it???
@@ -27,7 +29,7 @@ public class PlayerCameraInterface : MonoBehaviour
     {
         _playerController.OnLookDelta += OnPlayerLookDelta;
         _playerController.OnMovement += OnPlayerMovement;
-        _playerController.OnTargetLocke += OnPlayerTargetLock;
+        _playerController.OnTargetLock += OnPlayerTargetLock;
 
         CameraController.LookTarget = PlayerController.CameraTarget;
         CameraController.FollowTarget = PlayerController.CameraTarget;
@@ -42,7 +44,7 @@ public class PlayerCameraInterface : MonoBehaviour
 
         _playerController.OnLookDelta -= OnPlayerLookDelta;
         _playerController.OnMovement -= OnPlayerMovement;
-        _playerController.OnTargetLocke -= OnPlayerTargetLock;
+        _playerController.OnTargetLock -= OnPlayerTargetLock;
     }
 
     private void OnPlayerLookDelta(Vector3 playerPos, Vector2 lookDelta)
