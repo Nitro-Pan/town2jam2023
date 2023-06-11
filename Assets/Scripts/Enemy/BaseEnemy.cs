@@ -4,15 +4,16 @@ public class BaseEnemy : MonoBehaviour
 {
     [field: SerializeField] public GameObject Target { get; set; }
 
-    [field: SerializeField] public float BaseHealth { get; set; }
-    public float CurrentHealth { get; set; }
+    [field: SerializeField] public int BaseHealth { get; set; }
+    public int CurrentHealth { get; set; }
 
-    [field: SerializeField] public bool UseZForPathfinding { get; set; } = false;
+    [field: SerializeField] public bool UseYForPathfinding { get; set; } = false;
 
-    public float MoveSpeed { get; set; }
-    public float RotationSpeed { get; set; }
+    [field: SerializeField] public float MoveSpeed { get; set; }
+    [field: SerializeField] public float RotationSpeed { get; set; }
+    [field: SerializeField] public float MinDistanceFromTarget { get; set; }
+    [field: SerializeField] public float DistanceToTargetBeforeAttacking { get; set; }
 
-    public float DistanceToTargetBeforeAttacking { get; set; }
     public bool IsRecoveringFromAttack { get; set; }
     public bool WantsToAttack { get; private set; }
     public bool IsInAttackAnimation { get; set; }
@@ -23,6 +24,8 @@ public class BaseEnemy : MonoBehaviour
     {
         Origin = transform.position;
     }
+
+    private float curTime = 0.0f;
 
     public void FixedUpdate()
     {
@@ -36,18 +39,25 @@ public class BaseEnemy : MonoBehaviour
 
         if (CanMove())
         {
-            Vector3 movement = Vector3.MoveTowards(transform.position, moveTarget, MoveSpeed);
-            if (!UseZForPathfinding)
+            Vector3 offsetTarget = (transform.position - moveTarget);
+            offsetTarget.Normalize();
+            offsetTarget = moveTarget + (offsetTarget * MinDistanceFromTarget);
+
+            Vector3 movement = Vector3.MoveTowards(transform.position, offsetTarget, MoveSpeed );
+            if (!UseYForPathfinding)
             {
-                movement.z = transform.position.z;
+                movement.y = transform.position.y;
             }
 
-            transform.Translate(movement);
+            transform.position = movement;
         }
 
         if (CanRotate())
         {
-            Quaternion rotation = Quaternion.LookRotation(moveTarget - transform.position);
+            Vector3 lookTarget = (moveTarget - transform.position);
+            lookTarget.y = 0.0f;
+            Quaternion rotation = Quaternion.LookRotation(lookTarget);
+
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, RotationSpeed);
         }
     }
@@ -84,13 +94,25 @@ public class BaseEnemy : MonoBehaviour
         return (Vector3.Distance(Target.transform.position, transform.position) < DistanceToTargetBeforeAttacking);
     }
 
+
     private void BeginAttack()
     {
         WantsToAttack = true;
+
+        curTime += Time.deltaTime;
+        if (curTime > 5.0f)
+        {
+            Attack();
+            curTime = 0.0f;
+        }
     }
     
-    public void OnTakenDamage(float damageAmount)
+    public void OnTakenDamage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
+    }
+
+    protected virtual void Attack()
+    {
     }
 }
