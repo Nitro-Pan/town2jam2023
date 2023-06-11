@@ -14,8 +14,8 @@ public class BasePlayerController : MonoBehaviour
 
     [field: Header("Movement")]
     [field: SerializeField] private Rigidbody MainRigidbody { get; set; }
-    [field: SerializeField] [field: Range(0, 1000)] private float JumpHeight { get; set; } = 250.0f;
-    [field: SerializeField] [field: Range(0, 1000)] private float MoveSpeed { get; set; } = 15.0f;
+    [field: SerializeField] private float JumpHeight { get; set; } = 250.0f;
+    [field: SerializeField] private float MoveSpeed { get; set; } = 15.0f;
     [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
 
     private bool _isGrounded = false;
@@ -47,7 +47,11 @@ public class BasePlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.forward = Vector3.Normalize(_moveDirection);
+        if (_moveDirection != Vector3.zero)
+        {
+            transform.forward = Vector3.Normalize(_moveDirection);
+        }
+        
         MainRigidbody.AddForce((_isGrounded ? 1 : AirSpeedFactor) * MoveSpeed * _moveDirection, ForceMode.Acceleration);
 
         if (MainRigidbody.velocity != Vector3.zero)
