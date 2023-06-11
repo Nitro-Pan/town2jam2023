@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -363,6 +363,78 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 922057c71fd176f46b9c066883d1ba06, type: 3}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 8d9c6732-0aa2-444d-bcf2-a71b40358e45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 43f5f124-615e-4d01-99f3-31a13d96bc83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 60959ab7-55be-43b1-8f2d-8aba2fbb28ad
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 41da4ae1-f5cc-494a-9ada-ec398bcfeaef
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: a03168d8-833a-40bb-9be1-b0826b18595a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: edfb97b6-b2f1-4bd5-9684-ccee9130b3fd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: fbb7aea7-036e-4801-b9cd-7b7994293a33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: 9d00fa54-3d61-42a8-afe4-85b62162e39c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionId
+      value: 895e922c-8e2f-4e99-9665-fdec1719172b
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[9].m_ActionId
+      value: 0ccbd214-767f-4080-a5de-2e80dcc2a8d6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[10].m_ActionId
+      value: 3c72db86-6e2b-4190-b899-80da7f5526e4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: 300a3c76-8fb5-4a3a-9eae-ea6ed5ca48e7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionId
+      value: d28f235e-0915-4a0c-927e-9ddf6bcf5f8a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003534077310089477, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4041788614416865917, guid: 5d1506566d87e9c4c9167544f33d3c7a, type: 3}
       propertyPath: m_Name
       value: ClassicPlayer

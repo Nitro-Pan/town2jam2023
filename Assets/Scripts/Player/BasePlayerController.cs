@@ -27,6 +27,8 @@ public class BasePlayerController : MonoBehaviour
     private bool isLockedOn = false;
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
+    private bool _CantSwap;
+    private GameObject _GameController;
 
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
@@ -138,6 +140,12 @@ public class BasePlayerController : MonoBehaviour
         {
             OnTargetLock?.Invoke(isLockedOn ? target : CameraTarget);
         }
+    }
+
+    public void SwapWeapon(InputAction.CallbackContext context)
+    {
+        if (_CantSwap) return;
+        _GameController.GetComponent<GameController>().SwapWeapon();
     }
     #endregion
 
