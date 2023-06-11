@@ -26,6 +26,7 @@ public class BaseEnemy : MonoBehaviour
     public virtual void Awake()
     {
         Origin = transform.position;
+        CurrentHealth = BaseHealth;
     }
 
 
