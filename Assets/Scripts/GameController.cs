@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CommonDefinitions;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
-    [SerializeField] private List<BaseWeapon> _playerArsenal;
-    [SerializeField] private BaseWeapon _activeWeapon;
+    [SerializeField] private List<Operators> _playerArsenal;
+    [SerializeField] private Operators _activeOperator;
+    [SerializeField] private GameObject _weapon;
     [SerializeField] private GameObject _healthBar;
     [SerializeField] private GameObject _playerHotBar;
 
@@ -18,18 +20,21 @@ public class GameController : MonoBehaviour
     {
         _healthBar.transform.Find("MaximumPower").gameObject.GetComponent<TMP_Text>().text = SumEnemyHP().ToString();
         _healthBar.transform.Find("CurrentPower").gameObject.GetComponent<TMP_Text>().text = SumEnemyHP().ToString();
+        _playerArsenal.Add(Operators.Addition);
+        _playerArsenal.Add(Operators.Subtraction);
+        _activeOperator = Operators.Subtraction;
+        GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
     }
-
+        
     private void Update() 
     {
         UpdateHPBar();
         UpdatePlayerHP();
-        SwapWeapons();
     }
 
     private void UpdatePlayerHP() {
         if (_player == null) return;
-        _playerHotBar.transform.Find("Power").gameObject.GetComponent<TMP_Text>().text = _player.GetComponent<BasePlayer>().GetCurrentHP().ToString();
+        _playerHotBar.transform.Find("Power").gameObject.GetComponent<TMP_Text>().text = _player.GetComponent<BasePlayerController>().Health.ToString();
     }
 
     private void UpdateHPBar() 
@@ -51,8 +56,26 @@ public class GameController : MonoBehaviour
         }
         return maxHP;
     }
-    private void SwapWeapons()
+    public void SwapWeapon()
     {
-        
+        _activeOperator += 1;
+        if ((int) _activeOperator >= _playerArsenal.Count) {
+            _activeOperator = 0;
+        }
+        _weapon.GetComponent<BaseWeapon>().ActiveOperator = _activeOperator;
+        if (_activeOperator == Operators.Addition) 
+        {
+            GameObject.Find("WeaponUI1").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
+            GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI3").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI4").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+        }
+        else if (_activeOperator == Operators.Subtraction)
+        {
+            GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
+            GameObject.Find("WeaponUI1").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI3").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+            GameObject.Find("WeaponUI4").transform.Find("WeaponImage").GetComponent<Image>().color = Color.white;
+        }
     }
 }

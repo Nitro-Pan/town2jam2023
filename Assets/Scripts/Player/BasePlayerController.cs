@@ -7,6 +7,10 @@ using UnityEngine.InputSystem;
 public class BasePlayerController : MonoBehaviour
 {
     [field: SerializeField] public int Health { get; set; }
+    
+    [field: SerializeField] private GameObject _GameController;
+
+    [field: SerializeField] private IWeapon Weapon { get; set; }
 
     [field: Header("Camera")]
     [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
@@ -17,9 +21,13 @@ public class BasePlayerController : MonoBehaviour
     [field: SerializeField] private float JumpHeight { get; set; } = 250.0f;
     [field: SerializeField] private float MoveSpeed { get; set; } = 15.0f;
     [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
+    [field: SerializeField] private float RollInvincibilityTime { get; set; } = 0.1f;
+    [field: SerializeField] private float RollHurtTime { get; set; } = 0.2f;
 
     [field: Header("Animation")]
     [field: SerializeField] private Transform MeshTransform { get; set; }
+    [field: SerializeField] private Animator Animator { get; set; }
+    [field: SerializeField] private float WalkThreshold { get; set; } = 0.8f;  
 
     private bool _isGrounded = false;
     private Vector3 _moveDirection = Vector3.zero;
@@ -27,6 +35,10 @@ public class BasePlayerController : MonoBehaviour
     private bool isLockedOn = false;
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
+    private bool _CantSwap = false;
+
+    private bool isInIFrames = false;
+    private bool canRoll = true;
 
     public AudioSource[] footstepSFX;
     public AudioSource[] playerTakeDamageSFX;
@@ -47,7 +59,7 @@ public class BasePlayerController : MonoBehaviour
     private void Update()
     {
         // camera stuff
-        if (_lookDelta != Vector2.zero)
+        if (_lookDelta != Vector2.zero && _lookDelta.x != float.NaN)
         {
             OnLookDelta?.Invoke(CameraTarget.position, _lookDelta);
         }
@@ -76,8 +88,20 @@ public class BasePlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position + _moveDirection * 40, 5);
-        Gizmos.DrawLine(transform.position, transform.position + _moveDirection * 40);
+        Gizmos.DrawSphere(transform.position + _moveDirection, 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + _moveDirection);
+
+        if (isInIFrames)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(transform.position, 0.2f);
+        }
+
+        if (canRoll)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, 0.2f);
+        }
     }
 
     #region PLAYERINPUT
@@ -95,10 +119,13 @@ public class BasePlayerController : MonoBehaviour
         _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
         _moveDirection.y = 0;
         _moveDirection.Normalize();
+        _moveDirection *= moveDirection2d.magnitude;
 
         if (_moveDirection != Vector3.zero)
         {
             MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+                Animator.Play("Base Layer.Anim_Player_NRun");
         }
 
         CycleThroughSFX.playSFX(footstepSFX);
@@ -106,14 +133,25 @@ public class BasePlayerController : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        // TODO: determine shooting behaviour
-        // abtracted weapons are a must
+        if (!Animator.GetCurrentAnimatorStateInfo(0).IsName("Anim_player_Roll"))
+        {
+            Animator.Play("Base Layer.Anim_Player_Attack");
+            Weapon.TryAttack();
+        }
     }
 
     public void OnRoll(InputAction.CallbackContext context)
     {
-        // TODO: determine rolling behaviour 
-        // we probably want decoupled frame data & animation context
+        if (!canRoll)
+        {
+            return;
+        }
+
+        Animator.Play("Base Layer.Anim_player_Roll");
+        isInIFrames = true;
+        canRoll = false;
+
+        StartCoroutine(RollInvincibility());
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -124,6 +162,7 @@ public class BasePlayerController : MonoBehaviour
         {
             _isGrounded = false;
             MainRigidbody.AddForce(Vector3.up * JumpHeight, ForceMode.Acceleration);
+            // Animator.Play("jump");
         }
     }
 
@@ -146,6 +185,12 @@ public class BasePlayerController : MonoBehaviour
             OnTargetLock?.Invoke(isLockedOn ? target : CameraTarget);
         }
     }
+
+    public void SwapWeapon(InputAction.CallbackContext context)
+    {
+        if (_CantSwap) return;
+        _GameController.GetComponent<GameController>().SwapWeapon();
+    }
     #endregion
 
     private Transform FindTarget()
@@ -162,5 +207,13 @@ public class BasePlayerController : MonoBehaviour
         }
 
         return CameraTarget;
+    }
+
+    private IEnumerator RollInvincibility()
+    {
+        yield return new WaitForSeconds(RollInvincibilityTime);
+        isInIFrames = false;
+        yield return new WaitForSeconds(RollHurtTime);
+        canRoll = true;
     }
 }
