@@ -26,7 +26,7 @@ public class BasePlayerController : MonoBehaviour
     private Vector2 _lookDelta = Vector2.zero;
     private bool isLockedOn = false;
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
-    private Vector3 _forwardWhenStartedMovement = Vector3.zero;
+    private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
 
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
@@ -37,7 +37,7 @@ public class BasePlayerController : MonoBehaviour
     private void Start()
     {
         CameraInterface.PlayerController = this;
-        _forwardWhenStartedMovement = transform.forward;
+        OnTargetLocke?.Invoke(transform); // hack to get camera to auto attach
     }
 
     private void Update()
@@ -81,10 +81,14 @@ public class BasePlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 moveDirection2d = context.ReadValue<Vector2>();
+        if (_moveDirection == Vector3.zero && moveDirection2d != Vector2.zero)
+        {
+            _lastStationaryCameraMatrix = CameraInterface.CameraController.transform.localToWorldMatrix;
+        }
+
         _moveDirection.x = moveDirection2d.x;
         _moveDirection.z = moveDirection2d.y;
-
-        _moveDirection = CameraInterface.CameraController.transform.localToWorldMatrix.MultiplyVector(_moveDirection);
+        _moveDirection = _lastStationaryCameraMatrix.MultiplyVector(_moveDirection);
         _moveDirection.Normalize();
         _moveDirection.y = 0;
 
