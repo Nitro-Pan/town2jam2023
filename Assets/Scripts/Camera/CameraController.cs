@@ -23,15 +23,23 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         Camera.transform.LookAt(LookTarget);
+
+        Vector3 targetVector = Camera.transform.position - FollowTarget.position;
+        Camera.transform.position = FollowTarget.position + targetVector.normalized * PlayerOffset;
     }
 
     public void Translate(Vector3 delta)
     {
-        Camera.transform.Translate(delta);
+
     }
 
     public void Orbit(Vector2 delta)
     {
+        if (Mathf.Abs(PlayerOffset) < Mathf.Epsilon)
+        {
+            return;
+        }
+
         Camera.transform.RotateAround(FollowTarget.position, Vector3.up, Mathf.Asin(delta.x / PlayerOffset) * Mathf.Rad2Deg);
         Camera.transform.RotateAround(FollowTarget.position, Camera.transform.right, Mathf.Asin(delta.y / PlayerOffset) * Mathf.Rad2Deg);
     }

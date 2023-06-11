@@ -20,6 +20,7 @@ public class BasePlayerController : MonoBehaviour
     private Vector3 _moveDirection = Vector3.zero;
     private Vector2 _lookDelta = Vector2.zero;
     private bool isLockedOn = false;
+    private Vector3 _lastFixedUpdatePosition = Vector3.zero;
 
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
@@ -44,11 +45,14 @@ public class BasePlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         MainRigidbody.AddForce(_moveDirection * MoveSpeed * (_isGrounded ? 1 : AirSpeedFactor), ForceMode.Acceleration);
+        transform.forward = Vector3.Normalize(_moveDirection);
 
         if (MainRigidbody.velocity != Vector3.zero)
         {
-            OnMovement?.Invoke(CameraTarget.position, MainRigidbody.velocity);
+            OnMovement?.Invoke(CameraTarget.position, CameraTarget.position - _lastFixedUpdatePosition);
         }
+
+        _lastFixedUpdatePosition = CameraTarget.position;
     }
 
     private void OnCollisionEnter(Collision collision)
