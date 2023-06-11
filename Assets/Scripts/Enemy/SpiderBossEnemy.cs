@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiderBossEnemy : MonoBehaviour
+public class SpiderBossEnemy : BaseEnemy
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [field: SerializeField] public GameObject SubtractionProjectile { get; set; }
+    [field: SerializeField] public int NumProjectiles { get; set; } = 5;
+    [field: SerializeField] public float AngleBetweenProjectiles { get; set; } = 5.0f;
 
-    // Update is called once per frame
-    void Update()
+    protected override void Attack()
     {
-        
+        base.Attack();
+
+        for (int i = 0; i < NumProjectiles; ++i)
+        {
+            float angle = i * AngleBetweenProjectiles;
+            Instantiate(SubtractionProjectile, transform.position, Quaternion.Euler(0.0f, angle, 0.0f));
+        }
     }
 }
