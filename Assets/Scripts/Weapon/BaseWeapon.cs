@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CommonDefinitions;
 
-abstract public class BaseWeapon : MonoBehaviour, IWeapon
+public class BaseWeapon : MonoBehaviour, IWeapon
 {
     // May not be able to attack: out of ammo, various reasons
-    [SerializeField]
-    protected bool _canAttack;
+    [field: SerializeField] public bool CanAttack { get; set; }
 
     // Determines how fast the attack is
     [SerializeField]
@@ -21,28 +21,40 @@ abstract public class BaseWeapon : MonoBehaviour, IWeapon
     [SerializeField]
     protected Collider _collider;
 
+    // What operator is active: what will occur on hit
+    [field: SerializeField] public Operators ActiveOperator { get; set; }
+
 
     // Start is called before the first frame update
-    public virtual void Start()
+    public void Start()
     {
         this._attackSound = GetComponent<AudioClip>();
         this._collider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
-    public virtual void Update()
+    public void Update()
     {
 
     }
 
-    public abstract void Attack();
+    /**
+     * Exists for side-effects (spawning projectiles): doesn't do anything right now for melee attacks
+     */
+    public void Attack()
+    {
+
+    }
 
     // On hit
-    public abstract void OnTriggerEnter(Collider other);
+    public void OnTriggerEnter(Collider other)
+    {
+
+    }
 
     public virtual bool TryAttack()
     {
-        if(!_canAttack)
+        if(!CanAttack)
         {
             return false;
         }
