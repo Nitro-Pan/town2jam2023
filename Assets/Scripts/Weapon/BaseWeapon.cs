@@ -6,6 +6,8 @@ using CommonDefinitions;
 
 public class BaseWeapon : MonoBehaviour, IWeapon
 {
+    private BasePlayerController _playerController;
+
     [SerializeField]
     private AudioClip _attackSound;
 
@@ -29,12 +31,9 @@ public class BaseWeapon : MonoBehaviour, IWeapon
     {
         _attackSound = GetComponent<AudioClip>();
         _collider = GetComponent<Collider>();
-    }
 
-    // Update is called once per frame
-    public void Update()
-    {
-        // do nothing
+        // Hacky???
+        _playerController = FindObjectOfType<BasePlayerController>();
     }
 
     /**
@@ -50,16 +49,32 @@ public class BaseWeapon : MonoBehaviour, IWeapon
      */
     public void OnTriggerEnter(Collider other)
     {
-        BaseEnemy enemy = other.GetComponent<BaseEnemy>();
-        // BasePlayer player = ??? how to get player ref
-        if (!enemy) return; // no enemy collision: do nothing
+        // Not able to attack right now
+        if (!TryAttack()) return; 
 
+        BaseEnemy enemy = other.GetComponent<BaseEnemy>();
+        // collision not an enemy or dead enemy: do nothing
+        if (!enemy || enemy.CurrentHealth <= 0) return; 
 
         switch(ActiveOperator)
         {
             case Operators.Addition:
+                if(enemy.CurrentHealth < _playerController.Health)
+                {
+                    // Consume the enemy
+                    _playerController.Health += enemy.CurrentHealth;
+                    enemy.CurrentHealth = 0;
+                } else {
+                    // Heal both
+                    enemy.CurrentHealth += 1;
+                    _playerController.Health += 1;
+                }
+                Debug.Log("Addition");
                 break;
+
             case Operators.Subtraction:
+                enemy.CurrentHealth -= _playerController.Health;
+                Debug.Log("Subtraction");
                 break;
             case Operators.Multiplication:
                 break;
