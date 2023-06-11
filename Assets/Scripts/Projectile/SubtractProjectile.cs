@@ -6,6 +6,6 @@ public class SubtractProjectile : BaseProjectile
 
     protected override void OnHitPlayer(BasePlayerController other)
     {
-        Destroy(this);
+        Destroy(gameObject);
     }
 }

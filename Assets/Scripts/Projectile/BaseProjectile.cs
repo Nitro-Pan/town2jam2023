@@ -4,6 +4,7 @@ public class BaseProjectile : MonoBehaviour
 {
     public Collider Collider { get; private set; }
     [field: SerializeField] public float Speed { get; set; }
+    [field: SerializeField] public float LifeSpan { get; set; } = 10.0f;
 
     public void Awake()
     {
@@ -12,6 +13,12 @@ public class BaseProjectile : MonoBehaviour
 
     public void FixedUpdate()
     {
+        LifeSpan -= Time.deltaTime;
+        if (LifeSpan <= 0.0f)
+        {
+            Destroy(gameObject);
+        }
+
         transform.Translate(new Vector3(Speed, 0.0f, 0.0f));
     }
 

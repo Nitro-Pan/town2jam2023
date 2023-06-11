@@ -10,9 +10,10 @@ public class SpiderBossEnemy : BaseEnemy
     {
         base.Attack();
 
-        for (int i = 0; i < NumProjectiles; ++i)
+        for (int i = 1; i <= NumProjectiles; ++i)
         {
-            float angle = i * AngleBetweenProjectiles;
+            float modifier = i * (-1 * (i % 2));
+            float angle = (transform.rotation.eulerAngles.y + (modifier * AngleBetweenProjectiles)) - 90.0f;
             Instantiate(SubtractionProjectile, transform.position, Quaternion.Euler(0.0f, angle, 0.0f));
         }
     }
