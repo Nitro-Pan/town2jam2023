@@ -11,7 +11,7 @@ namespace CommonDefinitions
 
     public enum Operators
     {
-        Addition,
+        Addition = 0,
         Subtraction,
         Multiplication,
         Division
