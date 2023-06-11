@@ -110,6 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320467911737fdf4c9fdd64126cd7536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 0.5
+  <Speed>k__BackingField: 0.2
   <LifeSpan>k__BackingField: 10
   <SubtractionAmount>k__BackingField: 1
