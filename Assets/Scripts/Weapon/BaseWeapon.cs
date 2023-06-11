@@ -2,90 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CommonDefinitions;
 
-public class BaseWeapon : MonoBehaviour, IWeapon
+abstract public class BaseWeapon : MonoBehaviour, IWeapon
 {
-    private BasePlayerController _playerController;
-
+    // May not be able to attack: out of ammo, various reasons
     [SerializeField]
-    private AudioClip _attackSound;
-
-    // Weapon collider hitbox
-    [SerializeField]
-    private Collider _collider;
+    protected bool _canAttack;
 
     // Determines how fast the attack is
     [SerializeField]
-    private float _attackSpeed = 1.0f;
+    protected float _attackSpeed;
 
-    // May not be able to attack: out of ammo, various reasons
-    [field: SerializeField] public bool CanAttack { get; set; }
+    // Associated weapon sound
+    [SerializeField]
+    protected AudioClip _attackSound;
 
-    // What operator is active: what will occur on hit
-    [field: SerializeField] public Operators ActiveOperator { get; set; } = Operators.Subtraction;
+    // Weapon collider hitbox
+    [SerializeField]
+    protected Collider _collider;
 
 
     // Start is called before the first frame update
-    public void Start()
+    public virtual void Start()
     {
-        _attackSound = GetComponent<AudioClip>();
-        _collider = GetComponent<Collider>();
-
-        // Hacky???
-        _playerController = FindObjectOfType<BasePlayerController>();
+        this._attackSound = GetComponent<AudioClip>();
+        this._collider = GetComponent<Collider>();
     }
 
-    /**
-     * Exists for side-effects (e.g. spawning projectiles): doesn't do anything right now for melee attacks
-     */
-    public void Attack()
+    // Update is called once per frame
+    public virtual void Update()
     {
-        // do nothing
+
     }
 
-    /**
-     * What occurs on hit
-     */
-    public void OnTriggerEnter(Collider other)
+    public abstract void Attack();
+
+    // On hit
+    public abstract void OnTriggerEnter(Collider other);
+
+    public virtual bool TryAttack()
     {
-        // Not able to attack right now
-        if (!TryAttack()) return; 
-
-        BaseEnemy enemy = other.GetComponent<BaseEnemy>();
-        // collision not an enemy or dead enemy: do nothing
-        if (!enemy || enemy.CurrentHealth <= 0) return; 
-
-        switch(ActiveOperator)
-        {
-            case Operators.Addition:
-                if(enemy.CurrentHealth < _playerController.Health)
-                {
-                    // Consume the enemy
-                    _playerController.Health += enemy.CurrentHealth;
-                    enemy.CurrentHealth = 0;
-                } else {
-                    // Heal both
-                    enemy.CurrentHealth += 1;
-                    _playerController.Health += 1;
-                }
-                Debug.Log("Addition");
-                break;
-
-            case Operators.Subtraction:
-                enemy.CurrentHealth -= _playerController.Health;
-                Debug.Log("Subtraction");
-                break;
-            case Operators.Multiplication:
-                break;
-            case Operators.Division:
-                break;
-        }
-    }
-
-    public bool TryAttack()
-    {
-        if(!CanAttack)
+        if(!_canAttack)
         {
             return false;
         }
@@ -93,7 +50,7 @@ public class BaseWeapon : MonoBehaviour, IWeapon
         return true;
     }
 
-    public void SetColliderEnabled(bool colliderEnabled)
+    public virtual void SetColliderEnabled(bool colliderEnabled)
     {
         _collider.enabled = colliderEnabled;
     }
