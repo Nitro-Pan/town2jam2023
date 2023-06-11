@@ -191,7 +191,7 @@ public class BasePlayerController : MonoBehaviour
     public void SwapWeapon(InputAction.CallbackContext context)
     {
         if (_CantSwap) return;
-        _GameController.GetComponent<GameController>().SwapWeapon();
+        // _GameController.GetComponent<GameController>().SwapWeapon();
     }
     #endregion
 
