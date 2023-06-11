@@ -14,6 +14,8 @@ public class BaseEnemy : MonoBehaviour
     [field: SerializeField] public float MinDistanceFromTarget { get; set; }
     [field: SerializeField] public float DistanceToTargetBeforeAttacking { get; set; }
 
+    public AudioSource[] spiderHitsSFX;
+
     public bool IsRecoveringFromAttack { get; set; }
     public bool WantsToAttack { get; private set; }
     public bool IsInAttackAnimation { get; set; }
@@ -110,6 +112,7 @@ public class BaseEnemy : MonoBehaviour
     public void OnTakenDamage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
+        CycleThroughSFX.playSFX(spiderHitsSFX);
     }
 
     protected virtual void Attack()

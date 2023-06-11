@@ -28,6 +28,11 @@ public class BasePlayerController : MonoBehaviour
     private Vector3 _lastFixedUpdatePosition = Vector3.zero;
     private Matrix4x4 _lastStationaryCameraMatrix = Matrix4x4.identity;
 
+    public AudioSource[] footstepSFX;
+    public AudioSource[] playerTakeDamageSFX;
+    public AudioSource[] rollSFX;
+    public AudioSource[] swordSwingSFX;
+
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
     public event Action<Vector3, Vector2> OnLookDelta;
@@ -95,6 +100,8 @@ public class BasePlayerController : MonoBehaviour
         {
             MeshTransform.forward = new Vector3(_moveDirection.x, 0, _moveDirection.z);
         }
+
+        CycleThroughSFX.playSFX(footstepSFX);
     }
 
     public void OnFire(InputAction.CallbackContext context)
