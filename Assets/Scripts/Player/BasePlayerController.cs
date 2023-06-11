@@ -10,6 +10,8 @@ public class BasePlayerController : MonoBehaviour
     
     [field: SerializeField] private GameObject _GameController;
 
+    [field: SerializeField] private IWeapon Weapon { get; set; }
+
     [field: Header("Camera")]
     [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
     [field: SerializeField] public Transform CameraTarget { get; set; }

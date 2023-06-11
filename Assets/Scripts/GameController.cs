@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
         _activeOperator = Operators.Subtraction;
         GameObject.Find("WeaponUI2").transform.Find("WeaponImage").GetComponent<Image>().color = Color.yellow;
     }
-
+        
     private void Update() 
     {
         UpdateHPBar();
