@@ -16,6 +16,9 @@ public class BasePlayerController : MonoBehaviour
     private bool _isGrounded = false;
     private Vector3 _moveDirection = Vector3.zero;
 
+    [Header("Health")]
+    [field: SerializeField] public int Health;
+
     private void Start()
     {
         if (_mainCamera == null)
