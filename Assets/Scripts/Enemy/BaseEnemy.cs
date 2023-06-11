@@ -23,6 +23,7 @@ public class BaseEnemy : MonoBehaviour
     public void Awake()
     {
         Origin = transform.position;
+        CurrentHealth = BaseHealth;
     }
 
     private float curTime = 0.0f;
