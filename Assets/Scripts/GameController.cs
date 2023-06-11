@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
     private void UpdatePlayerHP() {
         if (_player == null) return;
-        _playerHotBar.transform.Find("Power").gameObject.GetComponent<TMP_Text>().text = _player.GetComponent<BasePlayer>().GetCurrentHP().ToString();
+        _playerHotBar.transform.Find("Power").gameObject.GetComponent<TMP_Text>().text = _player.GetComponent<BasePlayerController>().Health.ToString();
     }
 
     private void UpdateHPBar() 

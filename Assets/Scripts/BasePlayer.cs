@@ -2,22 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasePlayer : MonoBehaviour
+public class BasePlayerController : MonoBehaviour
 {
-    private int _currentHP;
+    public int Health { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        _currentHP = 999;
+        Health = 999;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _currentHP -= 1;
-    }
-
-    public int GetCurrentHP() {
-        return _currentHP;
+        Health -= 1;
     }
 }
