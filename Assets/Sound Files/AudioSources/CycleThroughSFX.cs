@@ -19,5 +19,4 @@ public static class CycleThroughSFX
         //clips[clipCounter++].Play();
         clips[Random.Range(0, clips.Length)].Play();
     }
-
 }
