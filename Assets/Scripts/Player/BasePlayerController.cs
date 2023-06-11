@@ -42,7 +42,7 @@ public class BasePlayerController : MonoBehaviour
     private void Update()
     {
         // camera stuff
-        if (_lookDelta != Vector2.zero)
+        if (_lookDelta != Vector2.zero && _lookDelta.x != float.NaN)
         {
             OnLookDelta?.Invoke(CameraTarget.position, _lookDelta);
         }

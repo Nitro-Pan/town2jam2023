@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6949008288761142984}
   - component: {fileID: 6949008288761142985}
   - component: {fileID: 6949008288761142986}
+  - component: {fileID: 4044089102003755260}
   m_Layer: 0
   m_Name: SpiderEnemy
   m_TagString: Untagged
@@ -100,6 +101,31 @@ MonoBehaviour:
   <BaseHealth>k__BackingField: 100
   <UseYForPathfinding>k__BackingField: 0
   <MoveSpeed>k__BackingField: 0.25
-  <RotationSpeed>k__BackingField: 0.75
+  <RotationSpeed>k__BackingField: 2
   <MinDistanceFromTarget>k__BackingField: 5
-  <DistanceToTargetBeforeAttacking>k__BackingField: 200
+  <DistanceToTargetBeforeAttacking>k__BackingField: 1e+11
+  <BaseTimeBetweenAttacks>k__BackingField: 2
+  <BaseRecoveryTime>k__BackingField: 2
+  <SubtractionProjectile>k__BackingField: {fileID: 1937529367670426654, guid: ed9139d018a90af4db55226e25d3fa00, type: 3}
+  <NumProjectiles>k__BackingField: 10
+  <AngleBetweenProjectiles>k__BackingField: 5
+  <ShootRandomness>k__BackingField: 20
+  <ShotsPerAttack>k__BackingField: 3
+  <BaseTimeBetweenShots>k__BackingField: 1
+  <JumpSpeed>k__BackingField: 2
+  <DropSpeed>k__BackingField: 3
+  <JumpHeight>k__BackingField: 50
+  <BaseSlamRecoveryTime>k__BackingField: 1
+--- !u!135 &4044089102003755260
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949008288761142990}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 1.0120975, z: 1.7462988}
