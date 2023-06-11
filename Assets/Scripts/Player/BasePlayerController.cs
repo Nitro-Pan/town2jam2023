@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class BasePlayerController : MonoBehaviour
 {
+    [field: SerializeField] public int Health { get; set; }
+
     [field: Header("Camera")]
     [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
     [field: SerializeField] public Transform CameraTarget { get; set; }
@@ -27,6 +29,7 @@ public class BasePlayerController : MonoBehaviour
     public event Action<Vector3, Vector2> OnLookDelta;
     public event Action<Transform> OnTargetLocke;
     #endregion
+
 
     private void Start()
     {
