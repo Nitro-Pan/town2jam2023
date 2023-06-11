@@ -155,7 +155,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8708818347260054777}
         m_TargetAssemblyTypeName: BasePlayerController, Assembly-CSharp
-        m_MethodName: OnJump
+        m_MethodName: OnRoll
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -207,7 +207,10 @@ MonoBehaviour:
   <JumpHeight>k__BackingField: 250
   <MoveSpeed>k__BackingField: 140
   <AirSpeedFactor>k__BackingField: 0.5
+  <RollInvincibilityTime>k__BackingField: 0.1
+  <RollHurtTime>k__BackingField: 0.2
   <MeshTransform>k__BackingField: {fileID: 8470135089082164606}
+  <Animator>k__BackingField: {fileID: 0}
 --- !u!114 &5816263918024277647
 MonoBehaviour:
   m_ObjectHideFlags: 0
