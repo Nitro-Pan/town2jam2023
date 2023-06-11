@@ -44,8 +44,8 @@ public class BasePlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MainRigidbody.AddForce(_moveDirection * MoveSpeed * (_isGrounded ? 1 : AirSpeedFactor), ForceMode.Acceleration);
         transform.forward = Vector3.Normalize(_moveDirection);
+        MainRigidbody.AddForce((_isGrounded ? 1 : AirSpeedFactor) * MoveSpeed * _moveDirection, ForceMode.Acceleration);
 
         if (MainRigidbody.velocity != Vector3.zero)
         {
@@ -118,6 +118,16 @@ public class BasePlayerController : MonoBehaviour
 
     private Transform FindTarget()
     {
+        GameObject[] sceneObjects = FindObjectsOfType<GameObject>();
+
+        foreach (GameObject go in sceneObjects)
+        {
+            if (go.tag == CommonDefinitions.Tags.ENEMY)
+            {
+                return go.transform;
+            }
+        }
+
         return CameraTarget;
     }
 }
