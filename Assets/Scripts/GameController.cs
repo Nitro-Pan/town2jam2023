@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
     [SerializeField] private List<BaseWeapon> _playerArsenal;
-    [SerializeField] private BaseWeapon _activeWeapon;
+    [SerializeField] private GameObject _activeWeapon;
     [SerializeField] private GameObject _healthBar;
     [SerializeField] private GameObject _playerHotBar;
 
@@ -24,7 +24,6 @@ public class GameController : MonoBehaviour
     {
         UpdateHPBar();
         UpdatePlayerHP();
-        SwapWeapons();
     }
 
     private void UpdatePlayerHP() {
@@ -51,8 +50,8 @@ public class GameController : MonoBehaviour
         }
         return maxHP;
     }
-    private void SwapWeapons()
+    public void SwapWeapon()
     {
-        
+
     }
 }

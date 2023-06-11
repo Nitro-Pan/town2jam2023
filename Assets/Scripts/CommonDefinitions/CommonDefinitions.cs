@@ -8,4 +8,12 @@ namespace CommonDefinitions
         public const string GROUND = "ground";
         public const string ENEMY = "enemy";
     }
+
+    public enum Operators
+    {
+        Addition,
+        Subtraction,
+        Multiplication,
+        Division
+    }
 }
