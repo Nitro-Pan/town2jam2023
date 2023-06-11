@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,34 +8,59 @@ public class BasePlayerController : MonoBehaviour
 {
     [field: SerializeField] public int Health { get; set; }
 
-    [Header("Camera")]
-    [SerializeField] private Camera _mainCamera;
+    [field: Header("Camera")]
+    [field: SerializeField] private PlayerCameraInterface CameraInterface { get; set; }
+    [field: SerializeField] public Transform CameraTarget { get; set; }
 
-    [Header("Movement")]
-    [SerializeField] private Rigidbody _mainRigidbody;
-    [SerializeField] [Range(0, 1000)] private float _jumpHeight;
-    [SerializeField] [Range(0, 1000)] private float _moveSpeed;
+    [field: Header("Movement")]
+    [field: SerializeField] private Rigidbody MainRigidbody { get; set; }
+    [field: SerializeField] [field: Range(0, 1000)] private float JumpHeight { get; set; } = 250.0f;
+    [field: SerializeField] [field: Range(0, 1000)] private float MoveSpeed { get; set; } = 15.0f;
+    [field: SerializeField] [field: Range(0, 1)] private float AirSpeedFactor { get; set; } = 0.5f;
 
     private bool _isGrounded = false;
     private Vector3 _moveDirection = Vector3.zero;
+    private Vector2 _lookDelta = Vector2.zero;
+    private bool isLockedOn = false;
+    private Vector3 _lastFixedUpdatePosition = Vector3.zero;
+
+    #region EVENTS
+    public event Action<Vector3, Vector3> OnMovement;
+    public event Action<Vector3, Vector2> OnLookDelta;
+    public event Action<Transform> OnTargetLocke;
+    #endregion
 
 
     private void Start()
     {
-        if (_mainCamera == null)
+        CameraInterface.PlayerController = this;
+    }
+
+    private void Update()
+    {
+        // camera stuff
+        if (_lookDelta != Vector2.zero)
         {
-            _mainCamera = Camera.main;
+            OnLookDelta?.Invoke(CameraTarget.position, _lookDelta);
         }
     }
 
     private void FixedUpdate()
     {
-        _mainRigidbody.AddForce(_moveDirection * _moveSpeed, ForceMode.Acceleration);
+        MainRigidbody.AddForce(_moveDirection * MoveSpeed * (_isGrounded ? 1 : AirSpeedFactor), ForceMode.Acceleration);
+        transform.forward = Vector3.Normalize(_moveDirection);
+
+        if (MainRigidbody.velocity != Vector3.zero)
+        {
+            OnMovement?.Invoke(CameraTarget.position, CameraTarget.position - _lastFixedUpdatePosition);
+        }
+
+        _lastFixedUpdatePosition = CameraTarget.position;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_isGrounded)
+        if (!_isGrounded && collision.gameObject.CompareTag(CommonDefinitions.Tags.GROUND))
         {
             _isGrounded = true;
         }
@@ -68,8 +94,33 @@ public class BasePlayerController : MonoBehaviour
         if (isJumping && _isGrounded)
         {
             _isGrounded = false;
-            _mainRigidbody.AddForce(Vector3.up * _jumpHeight, ForceMode.Acceleration);
+            MainRigidbody.AddForce(Vector3.up * JumpHeight, ForceMode.Acceleration);
+        }
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _lookDelta = context.ReadValue<Vector2>();
+    }
+
+    public void OnTargetLock(InputAction.CallbackContext context)
+    {
+        if (FindTarget() is not Transform target)
+        {
+            return;
+        }
+
+        isLockedOn = !isLockedOn;
+
+        if (context.ReadValueAsButton())
+        {
+            OnTargetLocke?.Invoke(isLockedOn ? target : CameraTarget);
         }
     }
     #endregion
+
+    private Transform FindTarget()
+    {
+        return CameraTarget;
+    }
 }
