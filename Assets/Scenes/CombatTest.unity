@@ -258,6 +258,41 @@ MonoBehaviour:
   <PlayerFreeOffset>k__BackingField: 80
   <PlayerLockOffset>k__BackingField: 120
   <CameraLookSens>k__BackingField: 10
+--- !u!1 &938460754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6949008288761142990, guid: 6698ef790c9b30a4a99d39677cc7c07a, type: 3}
+  m_PrefabInstance: {fileID: 1598314762}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &938460759
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938460754}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &938460760
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938460754}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3548044941037629879, guid: 3c1596199302fa347a68ecd9358d9072, type: 3}
 --- !u!1 &993025146
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,8 +482,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1076173514}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 8dee0a5aeeabed245814052c1f52ea7a, type: 2}
+  m_Controller: {fileID: 9100000, guid: d80ec8f264c2021458111bccd8645a20, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
