@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
     {
         int maxHP = 0;
         foreach (GameObject enemy in _enemies) {
-            maxHP += enemy.GetComponent<BaseEnemy>().GetCurrentHP();
+            maxHP += enemy.GetComponent<BaseEnemy>().CurrentHealth;
         }
         return maxHP;
     }

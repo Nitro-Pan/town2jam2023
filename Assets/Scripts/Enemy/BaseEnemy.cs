@@ -110,6 +110,11 @@ public class BaseEnemy : MonoBehaviour
     public void OnTakenDamage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
+
+        if (CurrentHealth <= 0.0f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected virtual void Attack()
