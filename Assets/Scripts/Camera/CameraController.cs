@@ -5,15 +5,14 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [field: SerializeField] private Camera Camera { get; set; }
-    [field: SerializeField] private float PlayerFreeOffset { get; set; } = 120.0f;
-    [field: SerializeField] private float PlayerLockOffset { get; set; } = 80.0f;
+    [field: SerializeField] private float PlayerFreeOffset { get; set; } = 80.0f;
+    [field: SerializeField] private float PlayerLockOffset { get; set; } = 120.0f;
     [field: SerializeField] private float CameraLookSens { get; set; } = 10.0f;
-
     public Transform LookTarget { get; set; }
     public Transform FollowTarget { get; set; }
 
     private Vector3 CameraTargetVector => Camera.transform.position - FollowTarget.position;
-    private Vector3 LookFollowVector => FollowTarget.position - LookTarget.position; // look -> follow
+    private Vector3 LookFollowVector => FollowTarget.position - LookTarget.position; // look -> follow (points toward character)
 
     private void Start()
     {
@@ -29,12 +28,11 @@ public class CameraController : MonoBehaviour
     {
         Camera.transform.LookAt(LookTarget);
 
-        if (LookTarget != FollowTarget)
-        {
-            Camera.transform.position = FollowTarget.position + LookFollowVector.normalized * PlayerLockOffset;
-        }
+        Vector3 followOffsetVector = LookTarget == FollowTarget ? 
+                                        CameraTargetVector.normalized * PlayerFreeOffset :
+                                        LookFollowVector.normalized * PlayerLockOffset;
 
-        Camera.transform.position = FollowTarget.position + CameraTargetVector.normalized * PlayerFreeOffset;
+        Camera.transform.position = FollowTarget.position + followOffsetVector;
     }
 
     public void Translate(Vector3 delta)

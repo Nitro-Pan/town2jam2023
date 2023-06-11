@@ -300,7 +300,18 @@
                     "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
+                    "action": "TargetLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d8289828-3700-4d7a-8128-117940ebfdfd",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "TargetLock",
                     "isComposite": false,
                     "isPartOfComposite": false
