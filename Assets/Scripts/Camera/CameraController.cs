@@ -20,8 +20,7 @@ public class CameraController : MonoBehaviour
             Camera = Camera.main;
         }
         
-        // using hack in BasePlayerController instead
-        // LookTarget = Camera.transform;
+        LookTarget = Camera.transform;
     }
 
     private void Update()
@@ -51,7 +50,7 @@ public class CameraController : MonoBehaviour
         Camera.transform.RotateAround(FollowTarget.position, Vector3.up, Mathf.Asin(delta.x / PlayerOffset) * Mathf.Rad2Deg * CameraLookSens);
 
         // rotate follow vector 90 degrees to get better rotation (thank fuck it's 90)
-        Vector3 rightRotate = new Vector3(TargetVector.z, TargetVector.y, TargetVector.x);
+        Vector3 rightRotate = LookTarget != FollowTarget ? new Vector3(TargetVector.z, TargetVector.y, TargetVector.x) : -Camera.transform.right;
         Camera.transform.RotateAround(FollowTarget.position, rightRotate, Mathf.Asin(delta.y / PlayerOffset) * Mathf.Rad2Deg * CameraLookSens);
     }
 }

@@ -31,13 +31,12 @@ public class BasePlayerController : MonoBehaviour
     #region EVENTS
     public event Action<Vector3, Vector3> OnMovement;
     public event Action<Vector3, Vector2> OnLookDelta;
-    public event Action<Transform> OnTargetLocke;
+    public event Action<Transform> OnTargetLock;
     #endregion
 
     private void Start()
     {
         CameraInterface.PlayerController = this;
-        OnTargetLocke?.Invoke(transform); // hack to get camera to auto attach
     }
 
     private void Update()
@@ -73,7 +72,7 @@ public class BasePlayerController : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(transform.position + _moveDirection * 40, 5);
-        Gizmos.DrawLine(transform.position, transform.position + transform.worldToLocalMatrix.MultiplyVector(_moveDirection));
+        Gizmos.DrawLine(transform.position, transform.position + _moveDirection * 40);
     }
 
     #region PLAYERINPUT
@@ -126,7 +125,7 @@ public class BasePlayerController : MonoBehaviour
         _lookDelta = context.ReadValue<Vector2>();
     }
 
-    public void OnTargetLock(InputAction.CallbackContext context)
+    public void OnTargetLockPressed(InputAction.CallbackContext context)
     {
         if (FindTarget() is not Transform target)
         {
@@ -137,7 +136,7 @@ public class BasePlayerController : MonoBehaviour
 
         if (context.ReadValueAsButton())
         {
-            OnTargetLocke?.Invoke(isLockedOn ? target : CameraTarget);
+            OnTargetLock?.Invoke(isLockedOn ? target : CameraTarget);
         }
     }
     #endregion
