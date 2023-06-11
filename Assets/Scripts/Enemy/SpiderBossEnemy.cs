@@ -20,6 +20,7 @@ public class SpiderBossEnemy : BaseEnemy
     private Vector3 SlamPosition { get; set; }
 
     private Collider Collider { get; set; }
+    private Animator Animator { get; set; }
 
     private enum SpiderBossAttackType
     {
@@ -36,13 +37,24 @@ public class SpiderBossEnemy : BaseEnemy
         base.Awake();
         Collider = GetComponent<Collider>();
         Collider.enabled = false;
+        Animator = GetComponent<Animator>();
+    }
+
+    public void Update()
+    {
+        if (Animator != null)
+        {
+            Animator.SetBool("IsSlamming", CurrentAttackType == SpiderBossAttackType.Slam);
+            Animator.SetBool("IsShooting", CurrentAttackType == SpiderBossAttackType.Shoot);
+            Animator.SetBool("IsDead", CurrentHealth <= 0.0f);
+        }
+
     }
 
     private SpiderBossAttackType CurrentAttackType { get; set; } = SpiderBossAttackType.None;
 
     SpiderBossAttackType ChooseAttack()
     {
-        return SpiderBossAttackType.Slam;
         int attackIndex = Random.Range((int)(SpiderBossAttackType.None) + 1, (int)SpiderBossAttackType.Count);
         return (SpiderBossAttackType)((int)SpiderBossAttackType.None + attackIndex);
     }
@@ -90,6 +102,7 @@ public class SpiderBossEnemy : BaseEnemy
                 CurrentTimeBetweenShots += BaseTimeBetweenShots;
                 if (CurrentShots >= ShotsPerAttack)
                 {
+                    CurrentAttackType = SpiderBossAttackType.None;
                     return true;
                 }
 
@@ -131,6 +144,7 @@ public class SpiderBossEnemy : BaseEnemy
 
                     if (!IsRecoveringFromSlam())
                     {
+                        CurrentAttackType = SpiderBossAttackType.None;
                         return true;
                     }
                 }

@@ -31,6 +31,8 @@ public class BaseEnemy : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (CurrentHealth <= 0.0f) { return; }
+
         UpdateMovement();
         UpdateAttack();
     }
