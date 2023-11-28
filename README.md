@@ -13,4 +13,4 @@ Colorful Hierachy Catergory GameObject: https://assetstore.unity.com/packages/to
 Note: Please protect your master branch! Go to settings->branches->add protection branch rule and enable Require a pull request before merging to avoid unneeded conflicts!
 
 
-Working build is hosted in [https://github.com/Mazianos/TownTwoAlt/tree/main/TownTwo](this repository)
+Working build is hosted in (https://github.com/Mazianos/TownTwoAlt/tree/main/TownTwo)[this repository]
